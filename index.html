@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arranged Marriages: To marry or not to marry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+        }
+        .session-container {
+             background-color: white;
+             border-radius: 12px;
+             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+             margin-bottom: 2.5rem;
+             padding: 2rem 2.5rem;
+        }
+        .session-header {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1d2129;
+            border-bottom: 2px solid #e4e6eb;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .activity-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #4a90e2;
+            margin-bottom: 1rem;
+        }
+        details > summary {
+            cursor: pointer;
+            font-weight: 600;
+            background-color: #e4e6eb;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+        details > summary:hover {
+            background-color: #d8dbdf;
+        }
+        details[open] > summary {
+            background-color: #4b4f56;
+            color: white;
+        }
+        details .content {
+            padding: 1.5rem;
+            border: 1px solid #d8dbdf;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            background-color: #ffffff;
+        }
+        .task-card {
+            background-color: #f7f8fa;
+            border: 1px solid #d8dbdf;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .task-header {
+            background-color: #6c757d;
+            color: white;
+            padding: 0.75rem 1.25rem;
+        }
+        .task-body {
+            padding: 1.25rem;
+        }
+        .task-body h4 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        /* Video styles */
+        .video-block { margin: 1rem 0; }
+        .juliet  { max-width: 529px; width: 100%; }
+        .maria   { max-width: 706px; width: 100%; }
+        .arranged{ max-width: 400px; width: 100%; }
+        video { width: 100%; background:#000; border-radius: 12px; display:block; }
+        .subbox { background:#fff; padding:10px; border-radius:10px; box-shadow: 0 6px 14px rgba(0,0,0,.08); margin-top: 8px; min-height: 2.2em; }
+        .line { font-size: 1.02rem; line-height:1.45; }
+        
+        /* Dropdown Quiz Styles */
+        .quiz-container { background-color: #f7f8fa; border: 1px solid #d8dbdf; border-radius: 8px; padding: 1.5rem; }
+        .quiz-question select { border: 1px solid #ccc; border-radius: 4px; padding: 0.5rem; }
+        .quiz-feedback { margin-left: 0.5rem; font-weight: bold; }
+        .correct { color: #38a169; }
+        .incorrect { color: #e53e3e; }
+        .check-btn { background-color: #4a90e2; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; cursor: pointer; transition: background-color 0.2s; }
+        .check-btn:hover { background-color: #357abd; }
+
+        /* Pulsating Text Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.02); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pulsating-question {
+            font-weight: bold;
+            color: #e53e3e; /* Red color */
+            animation: pulse 2s infinite;
+        }
+        .justified-text p { text-align: justify; }
+        .justified-text h4 { font-weight: bold; }
+
+        /* True/False Quiz Styles */
+        .tf-quiz-container { background-color: #f7f8fa; border: 1px solid #d8dbdf; border-radius: 8px; padding: 1.5rem; }
+        .tf-question { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; padding: 0.75rem; border-radius: 6px; background-color: white;}
+        .tf-question span { flex-grow: 1; margin-right: 1rem; }
+        .tf-btn { padding: 0.5rem 1rem; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; font-weight: bold; margin-left: 0.5rem; }
+        .tf-btn-true { background-color: #c6f6d5; color: #2f855a; }
+        .tf-btn-false { background-color: #fed7d7; color: #c53030; }
+        .tf-feedback { font-weight: bold; margin-left: 1rem; }
+
+        /* Modal Styles */
+        .modal-backdrop {
+            display: none; position: fixed; z-index: 50; top: 0; left: 0;
+            width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background-color: white; padding: 2rem; border-radius: 12px;
+            max-width: 500px; width: 90%; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; }
+        .modal-title { font-size: 1.25rem; font-weight: 600; }
+        .modal-close-btn { font-size: 1.5rem; font-weight: bold; cursor: pointer; }
+        .modal-body { padding-top: 1rem; }
+        .support-btn {
+            background-color: #6c757d; color: white; padding: 0.5rem 1rem;
+            border-radius: 6px; border: none; cursor: pointer; transition: background-color 0.2s; margin-right: 0.5rem;
+        }
+        .support-btn:hover { background-color: #5a6268; }
+        
+        .gold-btn {
+            background-color: #D4AF37; /* Gold color */
+            color: #4a2c0f; /* Dark brown text */
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            display: inline-block;
+            margin-top: 1rem;
+            transition: transform 0.2s;
+        }
+        .gold-btn:hover {
+            transform: scale(1.05);
+            background-color: #C6A02D;
+        }
+        
+        /* Password Lock Styles */
+        .password-prompt {
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            background-color: #f7fafc;
+        }
+        .password-prompt h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        .password-prompt p {
+            color: #718096;
+            margin-top: 0.5rem;
+        }
+        .password-prompt input {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            width: 200px;
+        }
+        .password-prompt button {
+            background-color: #4299e1;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="text-center mb-10">
+        <h1 class="text-4xl font-bold text-gray-800">Arranged Marriages: To marry or not to marry</h1>
+        <p class="text-lg text-gray-600 mt-2">A Step-by-Step Lesson Guide</p>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+
+        <!-- SESSION 1 -->
+        <div class="session-container">
+            <h2 class="session-header">Session 1: First Impressions & Key Concepts (40 mins)</h2>
+            
+            <div class="mb-8">
+                <h3 class="activity-header">Activity 1: Four Corners Warm-up (10 mins)</h3>
+                <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-2">
+                    <p><strong>Step 1 (Think):</strong> Silently consider the question below.</p>
+                    <p class="text-lg text-center my-4 pulsating-question">"What are your first thoughts or feelings when you hear the term 'arranged marriage'?"</p>
+                    <p><strong>Step 2 (Move):</strong> Stand up and walk to the physical corner in the classroom that best represents your overall feeling, using the guide below.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                    <div class="p-4 rounded-lg bg-green-100 border border-green-300"><div class="text-4xl mb-2">👍</div><h4 class="font-bold text-lg text-green-800">Positive View</h4><p class="text-sm text-green-700">(e.g., tradition, family, stability)</p></div>
+                    <div class="p-4 rounded-lg bg-red-100 border border-red-300"><div class="text-4xl mb-2">👎</div><h4 class="font-bold text-lg text-red-800">Negative View</h4><p class="text-sm text-red-700">(e.g., no choice, old-fashioned)</p></div>
+                    <div class="p-4 rounded-lg bg-yellow-100 border border-yellow-400"><div class="text-4xl mb-2">🤔</div><h4 class="font-bold text-lg text-yellow-800">Neutral / Unsure</h4><p class="text-sm text-yellow-700">(e.g., don't know much about it)</p></div>
+                    <div class="p-4 rounded-lg bg-purple-100 border border-purple-300"><div class="text-4xl mb-2">얽</div><h4 class="font-bold text-lg text-purple-800">It's Complicated</h4><p class="text-sm text-purple-700">(e.g., has both good and bad sides)</p></div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-2">
+                    <p><strong>Step 3 (Discuss):</strong> In your corner, quickly share with others why you chose it.</p>
+                    <p><strong>Step 4 (Share):</strong> Be ready for one person from your corner to share the main idea with the class.</p>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="activity-header">Group Assignment</h3>
+                <p class="text-gray-700">Now, we will form our five groups for the main task in Session 2. Please listen for your name and which group you will be in.</p>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="activity-header">Activity 2: Key Vocabulary (5 mins)</h3>
+                <p class="text-gray-700 mb-4">Let's check our understanding of the key terms. Choose the best word from the drop-down list to complete each sentence.</p>
+                <div class="quiz-container">
+                    <div class="quiz-question">1. A marriage where one or both people do not agree to it is a <select id="q1"><option value="">-- select --</option><option value="dowry">dowry</option><option value="forced">forced</option><option value="consent">consent</option></select> marriage.<span class="quiz-feedback" id="f1"></span></div>
+                    <div class="quiz-question">2. In some traditions, the bride's family provides a <select id="q2"><option value="">-- select --</option><option value="dowry">dowry</option><option value="arranged">arranged</option><option value="matchmaker">matchmaker</option></select> to the groom's family.<span class="quiz-feedback" id="f2"></span></div>
+                    <div class="quiz-question">3. A professional <select id="q3"><option value="">-- select --</option><option value="consent">consent</option><option value="forced">forced</option><option value="matchmaker">matchmaker</option></select> is a person who helps find a suitable spouse for others.<span class="quiz-feedback" id="f3"></span></div>
+                    <div class="quiz-question">4. A marriage planned by the families is an <select id="q4"><option value="">-- select --</option><option value="arranged">arranged</option><option value="dowry">dowry</option><option value="forced">forced</option></select> marriage, but the individuals still have the final say.<span class="quiz-feedback" id="f4"></span></div>
+                    <div class="quiz-question">5. Individual <select id="q5"><option value="">-- select --</option><option value="matchmaker">matchmaker</option><option value="consent">consent</option><option value="arranged">arranged</option></select> is a fundamental right, meaning a person must freely agree to get married.<span class="quiz-feedback" id="f5"></span></div>
+                    <button class="check-btn mt-4" onclick="checkAnswers()">Check My Answers</button>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="activity-header">Activity 3: Video 1 - Group Analysis (10 mins)</h3>
+                <p class="text-gray-700 mb-4">We will watch the "Romeo and Juliet" clip together as a class. Afterwards, in your new groups, discuss the following questions. Be ready to share your ideas.</p>
+                <div class="video-block juliet mx-auto"><video id="juliet" controls preload="metadata" playsinline><source src="Juliet.mp4" type="video/mp4"></video><div class="subbox"><div id="julietLine" class="line"></div></div></div>
+                <div class="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <h4 class="font-bold text-gray-800">Discussion Questions:</h4>
+                    <ul class="list-disc list-inside mt-2 space-y-2 text-gray-700 pulsating-question">
+                        <li>Focus on Juliet: What emotions does she show through her words, tone, and body language (e.g., kneeling)?</li>
+                        <li>Focus on Lady Capulet (her mother): Describe her tone of voice and the powerful or threatening language she uses. Is she listening to Juliet?</li>
+                        <li>Making the Connection: Does Juliet have a real choice here? Based on this, is it an <strong>arranged</strong> or a <strong>forced</strong> marriage? What is the crucial difference?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="activity-header">Activity 4: Video Comprehension (15 mins)</h3>
+                <p class="text-gray-700 mb-4">We will now watch two videos on the topic of arranged marriages. As you are watching, on your worksheet note down the answers to the following comprehension questions.</p>
+                
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <h4 class="font-bold text-gray-800">Video 1 Comprehension Questions (Maria's Story)</h4>
+                    <ul class="list-decimal list-inside mt-2 space-y-2 text-gray-700">
+                        <li>At what age did Maria learn who she was going to marry?</li>
+                        <li>What is a 'dowry' and why is it paid in Maria's culture?</li>
+                        <li>What is the most important advice Maria's grandfather gives about a successful marriage?</li>
+                    </ul>
+                </div>
+                <div class="video-block maria mx-auto"><video id="maria" controls preload="metadata" playsinline><source src="Maria.mp4" type="video/mp4"></video><div class="subbox"><div id="mariaLine" class="line"></div></div></div>
+
+                <p class="text-gray-700 my-4">Now we will watch the second video.</p>
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <h4 class="font-bold text-gray-800">Video 2 Comprehension Questions (The 'Arranged' Video)</h4>
+                     <ul class="list-decimal list-inside mt-2 space-y-2 text-gray-700">
+                        <li>What is the main difference shown between the two paths to marriage?</li>
+                        <li>What does the video suggest is the foundation for the 'arranged' path?</li>
+                        <li>How does the video show the two paths ending up? Is one presented as better than the other?</li>
+                    </ul>
+                </div>
+                <div class="video-block arranged mx-auto"><video id="arranged" controls preload="metadata" playsinline><source src="arranged.mp4" type="video/mp4"></video></div>
+            </div>
+
+            <div class="mt-8">
+                <h3 class="activity-header">Homework for Session 2</h3>
+                <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p class="text-gray-800">This lesson uses a <strong>flipped classroom</strong> approach. That means that you will have to do some preparation for the next lesson. This will prepare you for our group analysis in the next session.</p>
+                    <ul class="list-disc list-inside text-gray-800 mt-2">
+                        <li>Watch the two videos again.</li>
+                        <li>Read the full text "What Can We Learn from Arranged Marriages?" below.</li>
+                    </ul>
+                </div>
+                <details class="mt-4">
+                    <summary>Homework Reading: What Can We Learn from Arranged Marriages?</summary>
+                    <div class="content prose max-w-none justified-text">
+                        <p>Have you ever seen TV shows about matchmaking and wondered about arranged marriages? While they might seem very different from what's common in Greece, this way of finding a spouse is more prevalent worldwide than you might think. Globally, 55% of all marriages are arranged. In a country like India, for instance, over 90% of marriages are set up by family members.</p>
+                        <p>It is very important to understand the difference between an arranged marriage and a forced marriage. In a forced marriage, people have no choice, which is wrong because individual consent is a fundamental right. However, in most modern arranged marriages, both the man and the woman can say "no" to their parents' choice at any time.</p>
+                        <p>Consider the story of a man named Daniel from India. His Christian parents looked for a wife for him who shared his deep religious faith and values. When they found a family with a daughter who seemed like a good match, they introduced the two. Daniel and the young woman were given a "courtship phase" to get to know each other. After several months of meeting, they both decided they were ready and got married. Today, ten years later, they are happy with two children.</p>
+                        <p>This approach seems to be quite successful. The divorce rate for arranged marriages is only 6.3%, which is significantly lower than the 42% rate in America. This success might come from several key principles that can offer valuable lessons for any relationship.</p>
+                        <h4>Cultivating Love ❤️</h4>
+                        <p>In many Western relationships, the focus is on finding immediate passion and "chemistry." Arranged marriages teach a different approach. Couples often begin without knowing each other well, but they share the belief that love can grow over time. They focus on being patient and understanding, which helps them build a deep, loving connection as their relationship develops.</p>
+                        <h4>Commitment and Perseverance 💪</h4>
+                        <p>Couples in arranged marriages know from the very beginning that marriage requires dedication and hard work. They are committed to staying together and solving problems, rather than giving up when things get difficult. This strong sense of commitment helps them overcome challenges and build a long-lasting bond.</p>
+                        <h4>Building a Strong Foundation 🏗️</h4>
+                        <p>Arranged marriages prioritise building a solid foundation based on shared values, compatibility, and mutual respect. While intense romantic feelings are exciting, they can sometimes fade. By first making sure a couple is compatible in the most important areas of life, they create a stable partnership that is truly built to last.</p>
+                        <h4>Weathering the Storms ⛈️</h4>
+                        <p>Every relationship will face difficult times and misunderstandings. Arranged marriages show the importance of facing these challenges together. Instead of giving up, these couples rely on good communication, compromise, and their shared commitment to find solutions. This helps them get through the hard times and can even make their relationship stronger.</p>
+                        <h4>Growing Together 🌱</h4>
+                        <p>In this view, love isn't just a destination; it's a journey. Arranged marriages encourage couples to adapt, compromise, and evolve together throughout their lives. People change over time, and for a relationship to succeed, it must be able to change too. This mindset of continuous growth keeps the partnership dynamic and strong.</p>
+                        <p>Even if this isn't the path for you, we can all learn from the principles that make these marriages so successful. The dedication to hard work and the blessing of having family support are lessons that can help any relationship succeed.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <!-- PASSWORD PROMPT -->
+        <div id="password-prompt" class="password-prompt">
+            <h3>Session 2 is Locked</h3>
+            <p>Please enter the password to continue.</p>
+            <input type="password" id="password-input" placeholder="Password">
+            <button onclick="checkPassword()">Unlock</button>
+            <p id="password-error" style="color: red; display: none; margin-top: 0.5rem;">Incorrect password. Please try again.</p>
+        </div>
+
+        <!-- LOCKED CONTENT -->
+        <div id="locked-content" style="display: none;">
+            <!-- SESSION 2 -->
+            <div class="session-container">
+                <h2 class="session-header">Session 2: Analysis and Discussion (40 mins)</h2>
+                
+                <div class="mb-8">
+                    <h3 class="activity-header">Activity 1: Homework Review Quiz (5 mins)</h3>
+                    <p class="text-gray-700 mb-4">Let's quickly review the homework videos. Answer True or False for each statement. You will get immediate feedback!</p>
+                    
+                    <div class="tf-quiz-container">
+                        <h4 class="font-bold text-gray-800 mb-3">Quiz 1: Video 1 (Maria's Story)</h4>
+                        <div id="tf-q1" class="tf-question"><span>1. Maria was 15 when she learned who she would marry.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q1', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q1', false)">False</button><span class="tf-feedback" id="tf-f1"></span></div></div>
+                        <div id="tf-q2" class="tf-question"><span>2. Her future husband's mother found her at church.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q2', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q2', false)">False</button><span class="tf-feedback" id="tf-f2"></span></div></div>
+                        <div id="tf-q3" class="tf-question"><span>3. Maria thinks arranged marriages are normal in her culture.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q3', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q3', false)">False</button><span class="tf-feedback" id="tf-f3"></span></div></div>
+                        <div id="tf-q4" class="tf-question"><span>4. Her grandparents did not know each other before marrying.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q4', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q4', false)">False</button><span class="tf-feedback" id="tf-f4"></span></div></div>
+                        <div id="tf-q5" class="tf-question"><span>5. A dowry of $10,000-$15,000 is considered average in her culture.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q5', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q5', false)">False</button><span class="tf-feedback" id="tf-f5"></span></div></div>
+                        <div id="tf-q6" class="tf-question"><span>6. The dowry is paid to ensure the new family treats the daughter well.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q6', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q6', false)">False</button><span class="tf-feedback" id="tf-f6"></span></div></div>
+                        <div id="tf-q7" class="tf-question"><span>7. It is forbidden in her culture to marry a non-gypsy.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q7', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q7', false)">False</button><span class="tf-feedback" id="tf-f7"></span></div></div>
+                        <div id="tf-q8" class="tf-question"><span>8. People who marry outsiders are shunned from the community.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q8', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q8', false)">False</button><span class="tf-feedback" id="tf-f8"></span></div></div>
+                        <div id="tf-q9" class="tf-question"><span>9. The secret to marriage is to never try to change your partner.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q9', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q9', false)">False</button><span class="tf-feedback" id="tf-f9"></span></div></div>
+                        <div id="tf-q10" class="tf-question"><span>10. The video suggests that parents know what's best for their children.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q10', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q10', false)">False</button><span class="tf-feedback" id="tf-f10"></span></div></div>
+                    </div>
+
+                    <div class="tf-quiz-container mt-4">
+                        <h4 class="font-bold text-gray-800 mb-3">Quiz 2: Video 2 (The 'Arranged' Video)</h4>
+                        <div id="tf-q11" class="tf-question"><span>1. The video shows two paths: one starting with "love" and the other with "commitment".</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q11', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q11', false)">False</button><span class="tf-feedback" id="tf-f11"></span></div></div>
+                        <div id="tf-q12" class="tf-question"><span>2. The 'love' path is shown as a straight and easy road.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q12', false)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q12', true)">False</button><span class="tf-feedback" id="tf-f12"></span></div></div>
+                        <div id="tf-q13" class="tf-question"><span>3. The 'arranged' path is shown as difficult at the start.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q13', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q13', false)">False</button><span class="tf-feedback" id="tf-f13"></span></div></div>
+                        <div id="tf-q14" class="tf-question"><span>4. The video suggests only the 'arranged' path leads to happiness.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q14', false)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q14', true)">False</button><span class="tf-feedback" id="tf-f14"></span></div></div>
+                        <div id="tf-q15" class="tf-question"><span>5. The video suggests both paths can lead to a happy family.</span><div><button class="tf-btn tf-btn-true" onclick="checkTfAnswer('tf-q15', true)">True</button><button class="tf-btn tf-btn-false" onclick="checkTfAnswer('tf-q15', false)">False</button><span class="tf-feedback" id="tf-f15"></span></div></div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="activity-header">Activity 2: Group Work - Jigsaw Analysis (20 mins)</h3>
+                    <p class="text-gray-700 mb-4">Now, move into your groups. Click on your group number below to see your task and resources.</p>
+                    
+                    <div class="space-y-2">
+                        <!-- Group 1 -->
+                        <details><summary class="font-bold text-lg">Group 1: The Historians 🏛️</summary>
+                            <div class="p-4 border border-t-0 rounded-b-lg">
+                                <h4 class="font-bold">Your Task:</h4>
+                                <p>Discuss the "Romeo and Juliet" video clip from Session 1. How does this historical depiction of marriage differ from the modern examples in the homework materials? What was the role of consent?</p>
+                                <h4 class="font-bold mt-4">How to Structure Your Answer:</h4>
+                                <ul class="list-disc list-inside text-gray-700">
+                                    <li>Start by describing the situation in the Juliet clip.</li>
+                                    <li>Compare it to Maria's situation. What is similar? What is different?</li>
+                                    <li>Conclude by explaining the importance of consent.</li>
+                                </ul>
+                                <div class="mt-4">
+                                    <button class="support-btn" onclick="openModal('glossaryModal')">Text Glossary</button>
+                                    <button class="support-btn" onclick="openModal('phrasesModal1')">Useful Phrases</button>
+                                </div>
+                            </div>
+                        </details>
+                        <!-- Group 2 -->
+                        <details><summary class="font-bold text-lg">Group 2: The Sociologists 🌍</summary>
+                            <div class="p-4 border border-t-0 rounded-b-lg">
+                                <h4 class="font-bold">Your Task:</h4>
+                                <p>Focus on Maria's story. Analyse the cultural traditions, family roles, and financial aspects (like the dowry) mentioned. What are the rules and expectations in her community?</p>
+                                 <h4 class="font-bold mt-4">How to Structure Your Answer:</h4>
+                                <ul class="list-disc list-inside text-gray-700">
+                                    <li>Begin by describing the main cultural rules in Maria's community.</li>
+                                    <li>Explain the role of the family in choosing a partner.</li>
+                                    <li>Discuss the financial part (the dowry) and its purpose.</li>
+                                </ul>
+                                <div class="mt-4">
+                                    <button class="support-btn" onclick="openModal('glossaryModal')">Text Glossary</button>
+                                    <button class="support-btn" onclick="openModal('phrasesModal2')">Useful Phrases</button>
+                                </div>
+                            </div>
+                        </details>
+                        <!-- Group 3 -->
+                        <details><summary class="font-bold text-lg">Group 3: The Statisticians 📊</summary>
+                            <div class="p-4 border border-t-0 rounded-b-lg">
+                                <h4 class="font-bold">Your Task:</h4>
+                                <p>Focus on the statistics from the text. What do these numbers suggest? Are they surprising? Why might the divorce rate be so different?</p>
+                                <blockquote class="my-2 border-l-4 border-gray-200 pl-4 italic text-gray-700"><p>"Globally, 55% of all marriages are arranged. [...] The divorce rate for arranged marriages is only 6.3%, which is significantly lower than the 42% rate in America."</p></blockquote>
+                                <h4 class="font-bold mt-4">How to Structure Your Answer:</h4>
+                                <ul class="list-disc list-inside text-gray-700">
+                                    <li>Start by stating the key statistics from the text.</li>
+                                    <li>Discuss whether these numbers are surprising and why.</li>
+                                    <li>Give some possible reasons for the lower divorce rate, based on the text.</li>
+                                </ul>
+                                <div class="mt-4">
+                                    <button class="support-btn" onclick="openModal('glossaryModal')">Text Glossary</button>
+                                    <button class="support-btn" onclick="openModal('phrasesModal3')">Useful Phrases</button>
+                                </div>
+                            </div>
+                        </details>
+                        <!-- Group 4 -->
+                        <details><summary class="font-bold text-lg">Group 4: The Relationship Experts ❤️</summary>
+                            <div class="p-4 border border-t-0 rounded-b-lg">
+                                <h4 class="font-bold">Your Task:</h4>
+                                <p>Focus on the principles of "Cultivating Love" and "Commitment and Perseverance". Summarise them. How do these ideas compare to common relationship ideals in Western cultures?</p>
+                                <h4 class="font-bold mt-4">How to Structure Your Answer:</h4>
+                                <ul class="list-disc list-inside text-gray-700">
+                                    <li>First, explain the idea of 'cultivating love' over time.</li>
+                                    <li>Next, explain the importance of 'commitment' in this context.</li>
+                                    <li>Finally, compare these two ideas to what we usually see in films and music.</li>
+                                </ul>
+                                <div class="mt-4">
+                                    <button class="support-btn" onclick="openModal('glossaryModal')">Text Glossary</button>
+                                    <button class="support-btn" onclick="openModal('phrasesModal4')">Useful Phrases</button>
+                                </div>
+                            </div>
+                        </details>
+                        <!-- Group 5 -->
+                        <details><summary class="font-bold text-lg">Group 5: The Architects 🏗️</summary>
+                            <div class="p-4 border border-t-0 rounded-b-lg">
+                                <h4 class="font-bold">Your Task:</h4>
+                                <p>Focus on the principles of "Building a Strong Foundation," "Weathering the Storms," and "Growing Together". Explain how each idea could contribute to a successful marriage.</p>
+                                <h4 class="font-bold mt-4">How to Structure Your Answer:</h4>
+                                <ul class="list-disc list-inside text-gray-700">
+                                    <li>Explain what a 'strong foundation' means according to the text.</li>
+                                    <li>Describe how couples 'weather the storms' and why this is important.</li>
+                                    <li>Conclude by explaining the concept of 'growing together'.</li>
+                                </ul>
+                                <div class="mt-4">
+                                    <button class="support-btn" onclick="openModal('glossaryModal')">Text Glossary</button>
+                                    <button class="support-btn" onclick="openModal('phrasesModal5')">Useful Phrases</button>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="activity-header">Activity 3: Sharing and Guided Discussion (15 mins)</h3>
+                    <p class="text-gray-700">Each group will share their key findings. We will then have a whole-class discussion, concluding with the question: "What is the most valuable lesson we can learn from arranged marriages, regardless of our own culture?"</p>
+                </div>
+            </div>
+            
+            <!-- REFERENCE MATERIALS -->
+            <div class="session-container">
+                <h2 class="session-header">Reference Materials</h2>
+                <p class="text-gray-700">Study the following vocabulary and when you feel ready go and try our Vocab Test.</p>
+                <a href="https://pa-domvros.github.io/Lyra-Wedding-Ledger/" target="_blank" class="gold-btn">Vocab Test</a>
+                <details class="mt-4">
+                    <summary>Full Vocabulary List</summary>
+                    <div class="content">
+                        <p>A <strong>wedding</strong> is the ceremony where two people get married. It is the event itself.<br>A <strong>marriage</strong> is the legal and/or religious union of two people. It's the long-term relationship that begins with the wedding.</p>
+                        <h4 class="font-bold mt-4">The People Involved 🧑‍🤝‍🧑</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Bride</strong>: The woman who is getting married.<br><em>Example: The bride looked beautiful in her white wedding dress.</em></li>
+                            <li><strong>Groom</strong>: The man who is getting married.<br><em>Example: The groom waited nervously at the altar for his bride to arrive.</em></li>
+                            <li><strong>Couple</strong>: The two people who are getting married or are in a romantic relationship.<br><em>Example: The couple looked very happy as they left the church.</em></li>
+                            <li><strong>Fiancé</strong>: A man who is engaged to be married.<br><em>Example: My fiancé gave me this beautiful engagement ring.</em></li>
+                            <li><strong>Fiancée</strong>: A woman who is engaged to be married.<br><em>Example: I'd like you to meet my fiancée, Maria; we're getting married in June.</em></li>
+                            <li><strong>Spouse</strong>: A person's partner in a marriage; a husband or wife.<br><em>Example: You should name your spouse as the beneficiary on your life insurance policy.</em></li>
+                            <li><strong>Newlyweds</strong>: A couple who have very recently got married.<br><em>Example: The newlyweds are travelling to Italy for their honeymoon.</em></li>
+                            <li><strong>Best Man</strong>: A male friend or relative chosen by the groom to support him.<br><em>Example: The best man is responsible for keeping the wedding rings safe.</em></li>
+                            <li><strong>Maid of Honour</strong>: The most important bridesmaid, chosen by the bride to support her.<br><em>Example: My sister was my maid of honour and gave a wonderful speech.</em></li>
+                            <li><strong>Bridesmaids</strong>: Female friends or relatives who accompany the bride.<br><em>Example: The bridesmaids all wore matching pink dresses.</em></li>
+                            <li><strong>Groomsmen / Ushers</strong>: Male friends or relatives who support the groom. Ushers specifically help guests find their seats.<br><em>Example: The ushers handed out the order of service to the guests as they arrived.</em></li>
+                            <li><strong>Flower Girl</strong>: A young girl who scatters flower petals down the aisle.<br><em>Example: My little niece was the flower girl at our wedding.</em></li>
+                            <li><strong>Page Boy</strong>: A young boy who carries the wedding rings.<br><em>Example: The page boy walked carefully down the aisle holding the ring cushion.</em></li>
+                            <li><strong>Officiant</strong>: The person who conducts the wedding ceremony (e.g., a priest, registrar).<br><em>Example: The officiant asked the couple to state their vows.</em></li>
+                            <li><strong>In-laws</strong>: The family of your spouse.<br><em>Example: I get on very well with my in-laws; my mother-in-law is a great cook.</em></li>
+                        </ul>
+                        <h4 class="font-bold mt-4">Before the Wedding 💍</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>To propose / Proposal</strong>: The act of one person asking another to marry them.<br><em>Example: He decided to propose on a beach at sunset.</em></li>
+                            <li><strong>To get engaged / Engagement</strong>: The period of time after a proposal and before the wedding.<br><em>Example: They plan to get engaged for a year before they start planning the wedding.</em></li>
+                            <li><strong>Engagement ring</strong>: A ring given during a proposal to signify the agreement to marry.<br><em>Example: She was so excited to show her friends her new engagement ring.</em></li>
+                            <li><strong>Stag do / Stag night</strong>: A party for the groom and his male friends before he gets married.<br><em>Example: Mark is going to Prague for his stag do this weekend.</em></li>
+                            <li><strong>Hen do / Hen night</strong>: A party for the bride and her female friends before she gets married.<br><em>Example: For my hen do, we went to a spa for the day.</em></li>
+                            <li><strong>Venue</strong>: The place where an event, such as a wedding, happens.<br><em>Example: They chose a beautiful old hotel as their wedding venue.</em></li>
+                            <li><strong>Wedding invitation</strong>: The card sent to invite guests to the wedding.<br><em>Example: We need to send out the wedding invitations at least two months in advance.</em></li>
+                            <li><strong>Banns of marriage</strong>: A public announcement in a church of an intended marriage.<br><em>Example: The banns of marriage were read out in church for three consecutive Sundays.</em></li>
+                        </ul>
+                        <h4 class="font-bold mt-4">The Wedding Ceremony & Attire 💒</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Aisle</strong>: The passage a bride walks down in a church or ceremony venue.<br><em>Example: Everyone stood up as the bride began to walk down the aisle.</em></li>
+                            <li><strong>Altar</strong>: The table at the front of a church where the key parts of the ceremony take place.<br><em>Example: The couple stood before the altar to exchange their vows.</em></li>
+                            <li><strong>Vows</strong>: The sacred promises a couple makes to each other.<br><em>Example: They wrote their own vows to make the ceremony more personal.</em></li>
+                            <li><strong>To exchange rings</strong>: The part of the ceremony where the couple place rings on each other's fingers.<br><em>Example: After they promised to love each other forever, it was time to exchange rings.</em></li>
+                            <li><strong>Wedding ring / Wedding band</strong>: The ring exchanged during the ceremony.<br><em>Example: He wears a simple gold wedding band on his left hand.</em></li>
+                            <li><strong>Confetti</strong>: Small pieces of paper or dried petals thrown over the couple after the ceremony.<br><em>Example: The guests showered the couple with confetti as they left the church.</em></li>
+                            <li><strong>Wedding dress</strong>: The special dress worn by the bride.<br><em>Example: She spent months searching for the perfect wedding dress.</em></li>
+                            <li><strong>Veil</strong>: A piece of fine net material a bride might wear over her head.<br><em>Example: The groom lifted the veil to kiss the bride.</em></li>
+                            <li><strong>Bouquet</strong>: The arrangement of flowers carried by the bride.<br><em>Example: At the end of the night, she threw her bouquet into a crowd of her single friends.</em></li>
+                            <li><strong>Tuxedo / Suit</strong>: The formal outfit worn by the groom.<br><em>Example: The groom looked very smart in his tailored tuxedo.</em></li>
+                        </ul>
+                        <h4 class="font-bold mt-4">After the Ceremony (The Reception) 🎉</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Wedding reception</strong>: The party that follows the wedding ceremony.<br><em>Example: The wedding reception was held in a large marquee in a beautiful garden.</em></li>
+                            <li><strong>Wedding breakfast</strong>: The first meal eaten by the couple and guests after the ceremony.<br><em>Example: The wedding breakfast started at 4 p.m., even though it's called breakfast.</em></li>
+                            <li><strong>Toast</strong>: The act of raising a glass to wish a couple happiness.<br><em>Example: The father of the bride proposed a toast to the happy couple.</em></li>
+                            <li><strong>Speech</strong>: A talk given by key people like the best man or groom.<br><em>Example: The best man's speech was very funny and made everyone laugh.</em></li>
+                            <li><strong>First dance</strong>: The first dance of the evening performed by the newlyweds.<br><em>Example: For their first dance, they chose the song that was playing when they first met.</em></li>
+                            <li><strong>To cut the cake</strong>: A tradition where the couple cuts the first slice of the wedding cake together.<br><em>Example: All the guests gathered around to cut the cake.</em></li>
+                            <li><strong>Wedding favours</strong>: Small gifts given to guests to thank them for coming.<br><em>Example: The wedding favours were small jars of homemade honey.</em></li>
+                        </ul>
+                        <h4 class="font-bold mt-4">Social & Financial Aspects of Marriage ⚖️</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Matchmaker</strong>: A person who arranges introductions for people who want to marry.<br><em>Example: In some cultures, a professional matchmaker helps people find a suitable spouse.</em></li>
+                            <li><strong>Arranged marriage</strong>: A marriage planned by the families of the couple.<br><em>Example: Theirs was an arranged marriage, but they grew to love each other deeply.</em></li>
+                            <li><strong>Forced marriage</strong>: A marriage where one or both people do not consent.<br><em>Example: It is illegal and a violation of human rights to make someone enter a forced marriage.</em></li>
+                            <li><strong>Dowry</strong>: Property or money brought by a bride to her husband's family upon marriage.<br><em>Example: The tradition of paying a dowry is much less common now than it was in the past.</em></li>
+                            <li><strong>Prenuptial agreement (prenup)</strong>: A legal contract signed before marriage regarding assets.<br><em>Example: The wealthy businessman and his fiancée signed a prenuptial agreement.</em></li>
+                            <li><strong>Polygamy</strong>: The custom of having more than one spouse at the same time.<br><em>Example: Polygamy is illegal in all European countries.</em></li>
+                        </ul>
+                        <h4 class="font-bold mt-4">Legal Terms, Statuses & The End of a Marriage 📜</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Matrimony</strong>: The state of being married.<br><em>Example: The couple was joined in holy matrimony.</em></li>
+                            <li><strong>Civil ceremony</strong>: A non-religious legal wedding ceremony.<br><em>Example: They didn't want a church wedding, so they had a civil ceremony at the registry office.</em></li>
+                            <li><strong>Civil Partnership</strong>: A legal relationship with rights similar to marriage.<br><em>Example: They entered into a civil partnership last year.</em></li>
+                            <li><strong>Marriage certificate / Marriage licence</strong>: The official document proving a marriage is legal.<br><em>Example: The marriage certificate was signed by the couple and their two witnesses.</em></li>
+                            <li><strong>Widow / Widower</strong>: A woman (widow) or man (widower) whose spouse has died.<br><em>Example: She has been a widow for ten years but has never wanted to remarry.</em></li>
+                            <li><strong>Separation</strong>: The state of a married couple living apart.<br><em>Example: After a trial separation, they decided they couldn't fix their problems.</em></li>
+                            <li><strong>Divorce</strong>: The legal ending of a marriage.<br><em>Example: The rate of divorce has increased in many countries over the last 50 years.</em></li>
+                            <li><strong>Annulment</strong>: A legal procedure that declares a marriage was never valid.<br><em>Example: An annulment was granted because it was proven the marriage was not legal.</em></li>
+                            <li><strong>Spousal Maintenance / Alimony</strong>: Payments made by one spouse to the other after a divorce.<br><em>Example: The court ordered him to pay spousal maintenance to his ex-wife for five years.</em></li>
+                        </ul>
+                        <h4 class="font-bold mt-4">Idioms and Expressions 💬</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>To tie the knot</strong>: An informal phrase meaning to get married.<br><em>Example: After dating for a decade, they've finally decided to tie the knot.</em></li>
+                            <li><strong>To elope / Elopement</strong>: To run away secretly to get married.<br><em>Example: Her parents were upset when they found out she had decided to elope.</em></li>
+                            <li><strong>To get cold feet</strong>: To become nervous and doubtful just before a big event like a wedding.<br><em>Example: The bride got cold feet, but her sister convinced her she was making the right decision.</em></li>
+                            <li><strong>A match made in heaven</strong>: A couple who are perfectly suited to each other.<br><em>Example: Everyone agrees that George and Maria are a match made in heaven.</em></li>
+                            <li><strong>To walk down the aisle</strong>: A phrase meaning to get married.<br><em>Example: I can't believe my little brother is old enough to walk down the aisle.</em></li>
+                            <li><strong>To leave someone at the altar</strong>: To decide not to go through with a wedding at the last minute.<br><em>Example: The whole town was shocked when he decided to leave her at the altar.</em></li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </main>
+    
+<script>
+    // --- Dropdown Quiz Script ---
+    function checkAnswers() {
+        const answers = { q1: "forced", q2: "dowry", q3: "matchmaker", q4: "arranged", q5: "consent" };
+        for (const qId in answers) {
+            const select = document.getElementById(qId);
+            const feedback = document.getElementById(qId.replace('q', 'f'));
+            if (select.value === answers[qId]) {
+                feedback.textContent = "Correct!";
+                feedback.className = "quiz-feedback correct";
+            } else if (select.value === "") {
+                feedback.textContent = "Please select an answer.";
+                feedback.className = "quiz-feedback incorrect";
+            } else {
+                feedback.textContent = "Try again.";
+                feedback.className = "quiz-feedback incorrect";
+            }
+        }
+    }
+
+    // --- True/False Quiz Script ---
+    function checkTfAnswer(questionId, isCorrect) {
+        const feedback = document.getElementById(questionId.replace('q', 'f'));
+        const questionDiv = document.getElementById(questionId);
+        const buttons = questionDiv.querySelectorAll('button');
+        
+        if (isCorrect) {
+            feedback.textContent = "Correct!";
+            feedback.className = "tf-feedback correct";
+        } else {
+            feedback.textContent = "Incorrect.";
+            feedback.className = "tf-feedback incorrect";
+        }
+
+        // Disable buttons after answering
+        buttons.forEach(button => button.disabled = true);
+    }
+
+    // --- Modal Script ---
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'flex';
+    }
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+    
+    // --- Password Lock Script ---
+    function checkPassword() {
+        const passwordInput = document.getElementById('password-input').value;
+        const correctPassword = 'teacher';
+        if (passwordInput === correctPassword) {
+            document.getElementById('locked-content').style.display = 'block';
+            document.getElementById('password-prompt').style.display = 'none';
+        } else {
+            document.getElementById('password-error').style.display = 'block';
+        }
+    }
+
+    // --- Video Subtitles Script ---
+    const julietSubs = [{"start": 0.2, "end": 1.64, "text": "Aren't you proud?"}, {"start": 4.34, "end": 7.96, "text": "Don't you consider yourself blessed, as unworthy"}, {"start": 7.96, "end": 10.7, "text": "as you are, that I have arranged for such a worthy"}, {"start": 10.7, "end": 12.32, "text": "gentleman to be your husband?"}, {"start": 13.14, "end": 16.32, "text": "I'm not proud of it, but I am thankful for"}, {"start": 16.32, "end": 16.74, "text": "it."}, {"start": 18.82, "end": 20.52, "text": "I can never be proud of what I"}, {"start": 20.52, "end": 20.84, "text": "hate."}, {"start": 22.6, "end": 24.66, "text": "What is this? \"Proud,\" and \"I thank you,\""}, {"start": 24.66, "end": 25.74, "text": "and \"I don't thank you,\" and yet \"not"}, {"start": 25.74, "end": 26.06, "text": "proud?\""}, {"start": 29.5, "end": 32.98, "text": "You spoiled little brat, don't give me any of your 'thank yous' or"}, {"start": 32.98, "end": 35.8, "text": "your 'prouds.' Just get yourself ready"}, {"start": 35.8, "end": 38.54, "text": "for next Thursday to go with Paris"}, {"start": 38.54, "end": 41.98, "text": "to St. Peter's Church, or I'll drag you"}, {"start": 41.98, "end": 43.54, "text": "there myself."}, {"start": 44.74, "end": 46.9, "text": "Good mother, I'm begging you, on my knees,"}, {"start": 47.38, "end": 49.06, "text": "listen to me with patience, just let me say a"}, {"start": 49.06, "end": 49.26, "text": "word."}, {"start": 49.36, "end": 52.32, "text": "I'm telling you, get yourself to church"}, {"start": 52.32, "end": 55.26, "text": "on Thursday, or never look me in"}, {"start": 55.26, "end": 55.7, "text": "the face again."}];
+    const mariaSubs  = [{"start": 0.0, "end": 1.85, "text": "I was 15 when I learned that Christian"}, {"start": 2.0, "end": 3.85, "text": "is going to be the one that I'm going to"}, {"start": 4.0, "end": 6.85, "text": "be married to I was about 14 I believe I"}, {"start": 7.0, "end": 8.85, "text": "started looking in church when Christian"}, {"start": 9.0, "end": 11.85, "text": "was 14 years old because that's where"}, {"start": 12.0, "end": 13.85, "text": "usually all the good little girls are"}, {"start": 14.0, "end": 15.85, "text": "and that's where I seen her she was 14"}, {"start": 16.0, "end": 17.0, "text": "years old and she was a pretty little"}, {"start": 17.0, "end": 18.85, "text": "girl and I guess that's what I was"}, {"start": 19.0, "end": 20.85, "text": "looking for I don't think that there's"}, {"start": 21.0, "end": 22.85, "text": "anything wrong with arranged marriages"}, {"start": 23.0, "end": 25.85, "text": "because I'm so used to them everyone is"}, {"start": 26.0, "end": 27.85, "text": "pretty much arranged in the Gypsy"}, {"start": 28.0, "end": 30.85, "text": "culture so it's nothing knew I wasn't in"}, {"start": 31.0, "end": 32.85, "text": "love with your"}, {"start": 33.0, "end": 34.85, "text": "grandmother we didn't know one another"}, {"start": 35.0, "end": 36.85, "text": "we didn't talk but according to our"}, {"start": 37.0, "end": 40.85, "text": "tradition I had to obey my father and"}, {"start": 41.0, "end": 42.85, "text": "mother and you know what Christian we"}, {"start": 43.0, "end": 46.85, "text": "look at the results it works it works"}, {"start": 47.0, "end": 49.85, "text": "gypsy girls just know that you are going"}, {"start": 50.0, "end": 51.85, "text": "to get married at a young age and your"}, {"start": 52.0, "end": 54.85, "text": "father mother do pick your husband and"}, {"start": 55.0, "end": 56.85, "text": "your father and mother do get doll off"}, {"start": 57.0, "end": 59.85, "text": "of your hand in marriage I paid"}, {"start": 60.0, "end": 61.85, "text": "somewhere between $10 and $15,000 that's"}, {"start": 62.0, "end": 63.85, "text": "the average price we pay a DI for our"}, {"start": 64.0, "end": 65.0, "text": "daughters because you know they're going"}, {"start": 65.0, "end": 67.85, "text": "to a new family and we want them to"}, {"start": 68.0, "end": 70.85, "text": "treat them a little more because they"}, {"start": 71.0, "end": 72.85, "text": "paid for them you do have to marry a"}, {"start": 73.0, "end": 74.85, "text": "gypsy boy when you are gypsy and that"}, {"start": 75.0, "end": 76.85, "text": "goes with boys too boys have to marry"}, {"start": 77.0, "end": 78.85, "text": "gypsy girls if you marry someone that"}, {"start": 79.0, "end": 81.85, "text": "isn't Gypsy it's just not right at all"}, {"start": 82.0, "end": 83.0, "text": "you do basically get shunned from your"}, {"start": 83.0, "end": 85.85, "text": "community the secret of marriage my son"}, {"start": 86.0, "end": 90.85, "text": "is never ever try to change Maria and"}, {"start": 91.0, "end": 93.85, "text": "let Maria never ever try to change you"}, {"start": 94.0, "end": 95.85, "text": "that is so right you're just always"}, {"start": 96.0, "end": 97.85, "text": "supposed to listen to your father mother"}, {"start": 98.0, "end": 99.85, "text": "because they've been through bad times"}, {"start": 100.0, "end": 101.85, "text": "and good times and they know what's best"}, {"start": 102.0, "end": 103.85, "text": "for their children you just pray that"}, {"start": 104.0, "end": 106.85, "text": "everything works out for the"}, {"start": 107.0, "end": 109.0, "text": "best"}];
+
+    function wireVideoWithSubs(videoId, boxId, subs) {
+        const v = document.getElementById(videoId);
+        const box = document.getElementById(boxId);
+        if (!v || !box) return;
+        let last = -1;
+        function update() {
+            const t = v.currentTime || 0;
+            let idx = -1;
+            for (let i=0; i < subs.length; i++) {
+                const s = subs[i];
+                if (t >= s.start && t <= s.end) { idx = i; break; }
+                if (t < s.start) break;
+            }
+            if (idx !== last) {
+                box.textContent = idx >= 0 ? subs[idx].text : '';
+                last = idx;
+            }
+        }
+        v.addEventListener('timeupdate', update);
+        v.addEventListener('seeked', update);
+        v.addEventListener('loadedmetadata', update);
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        wireVideoWithSubs('juliet','julietLine', julietSubs);
+        wireVideoWithSubs('maria','mariaLine',  mariaSubs);
+    });
+</script>
+
+</body>
+</html>
