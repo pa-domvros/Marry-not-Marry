@@ -198,7 +198,6 @@
 
     <main class="max-w-7xl mx-auto">
 
-        <!-- SESSION 1 -->
         <div class="session-container">
             <h2 class="session-header">Session 1: First Impressions & Key Concepts (40 mins)</h2>
             
@@ -313,7 +312,6 @@
             </div>
         </div>
 
-        <!-- PASSWORD PROMPT -->
         <div id="password-prompt" class="password-prompt">
             <h3>Session 2 is Locked</h3>
             <p>Please enter the password to continue.</p>
@@ -322,9 +320,7 @@
             <p id="password-error" style="color: red; display: none; margin-top: 0.5rem;">Incorrect password. Please try again.</p>
         </div>
 
-        <!-- LOCKED CONTENT -->
         <div id="locked-content" style="display: none;">
-            <!-- SESSION 2 -->
             <div class="session-container">
                 <h2 class="session-header">Session 2: Analysis and Discussion (40 mins)</h2>
                 
@@ -361,7 +357,6 @@
                     <p class="text-gray-700 mb-4">Now, move into your groups. Click on your group number below to see your task and resources.</p>
                     
                     <div class="space-y-2">
-                        <!-- Group 1 -->
                         <details><summary class="font-bold text-lg">Group 1: The Historians 🏛️</summary>
                             <div class="p-4 border border-t-0 rounded-b-lg">
                                 <h4 class="font-bold">Your Task:</h4>
@@ -378,7 +373,6 @@
                                 </div>
                             </div>
                         </details>
-                        <!-- Group 2 -->
                         <details><summary class="font-bold text-lg">Group 2: The Sociologists 🌍</summary>
                             <div class="p-4 border border-t-0 rounded-b-lg">
                                 <h4 class="font-bold">Your Task:</h4>
@@ -395,7 +389,6 @@
                                 </div>
                             </div>
                         </details>
-                        <!-- Group 3 -->
                         <details><summary class="font-bold text-lg">Group 3: The Statisticians 📊</summary>
                             <div class="p-4 border border-t-0 rounded-b-lg">
                                 <h4 class="font-bold">Your Task:</h4>
@@ -413,7 +406,6 @@
                                 </div>
                             </div>
                         </details>
-                        <!-- Group 4 -->
                         <details><summary class="font-bold text-lg">Group 4: The Relationship Experts ❤️</summary>
                             <div class="p-4 border border-t-0 rounded-b-lg">
                                 <h4 class="font-bold">Your Task:</h4>
@@ -430,7 +422,6 @@
                                 </div>
                             </div>
                         </details>
-                        <!-- Group 5 -->
                         <details><summary class="font-bold text-lg">Group 5: The Architects 🏗️</summary>
                             <div class="p-4 border border-t-0 rounded-b-lg">
                                 <h4 class="font-bold">Your Task:</h4>
@@ -456,7 +447,6 @@
                 </div>
             </div>
             
-            <!-- REFERENCE MATERIALS -->
             <div class="session-container">
                 <h2 class="session-header">Reference Materials</h2>
                 <p class="text-gray-700">Study the following vocabulary and when you feel ready go and try our Vocab Test.</p>
@@ -643,6 +633,108 @@
         wireVideoWithSubs('maria','mariaLine',  mariaSubs);
     });
 </script>
+
+<div id="glossaryModal" class="modal-backdrop">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Text Glossary</h3>
+            <span class="modal-close-btn" onclick="closeModal('glossaryModal')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <ul class="list-disc list-inside space-y-2">
+                <li><strong>Consent:</strong> Free and willing agreement to something. In marriage, it means both people must say "yes" without pressure.</li>
+                <li><strong>Compatibility:</strong> The ability to exist or live together in harmony. In this context, it means sharing similar values and life goals.</li>
+                <li><strong>Perseverance:</strong> Continuing to do something despite difficulty or delay in achieving success.</li>
+                <li><strong>Foundation:</strong> The underlying basis or principle for something. A strong foundation in marriage is based on trust, respect, and shared values.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="phrasesModal1" class="modal-backdrop">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Useful Phrases for Historians</h3>
+            <span class="modal-close-btn" onclick="closeModal('phrasesModal1')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <ul class="list-disc list-inside space-y-2">
+                <li>"In the 'Romeo and Juliet' clip, the marriage is clearly forced because..."</li>
+                <li>"This contrasts with Maria's story, where..."</li>
+                <li>"The key difference regarding consent is that..."</li>
+                <li>"Historically, the concept of choice in marriage was..."</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="phrasesModal2" class="modal-backdrop">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Useful Phrases for Sociologists</h3>
+            <span class="modal-close-btn" onclick="closeModal('phrasesModal2')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <ul class="list-disc list-inside space-y-2">
+                <li>"According to the video, the main cultural rule in Maria's community is..."</li>
+                <li>"The role of the family is central because they..."</li>
+                <li>"The dowry serves the purpose of..."</li>
+                <li>"These traditions show that the community values..."</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="phrasesModal3" class="modal-backdrop">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Useful Phrases for Statisticians</h3>
+            <span class="modal-close-btn" onclick="closeModal('phrasesModal3')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <ul class="list-disc list-inside space-y-2">
+                <li>"The text states that the divorce rate is only 6.3%, which is surprising because..."</li>
+                <li>"A possible reason for this low statistic could be..."</li>
+                <li>"These numbers suggest that..."</li>
+                <li>"While the statistic is low, it might not show..."</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="phrasesModal4" class="modal-backdrop">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Useful Phrases for Relationship Experts</h3>
+            <span class="modal-close-btn" onclick="closeModal('phrasesModal4')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <ul class="list-disc list-inside space-y-2">
+                <li>"The principle of 'cultivating love' suggests that love is something you build, not just find."</li>
+                <li>"This idea of commitment contrasts with the Western ideal of..."</li>
+                <li>"According to the text, perseverance is important because..."</li>
+                <li>"These concepts challenge the common belief that..."</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="phrasesModal5" class="modal-backdrop">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Useful Phrases for Architects</h3>
+            <span class="modal-close-btn" onclick="closeModal('phrasesModal5')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <ul class="list-disc list-inside space-y-2">
+                <li>"A 'strong foundation' is built on shared values, which means..."</li>
+                <li>"The concept of 'weathering the storms' shows the importance of..."</li>
+                <li>"For a couple to 'grow together,' they must be willing to..."</li>
+                <li>"These principles work together to create a stable partnership by..."</li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
